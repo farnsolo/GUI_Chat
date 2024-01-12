@@ -64,7 +64,7 @@ class client_GUI:
                 #break
             
     def listen(self):
-        self.addr = '10.2.21.188'
+        self.addr = 'xx.x.xx.xxx'
         self.sock.connect((self.addr, 2525))
         print(f"Connected to Server {self.addr}")
         server_connect_message = f"Connected to server {self.addr}. \nPress the Enter key to send message"
