@@ -1,6 +1,7 @@
 import socket
 from tkinter import messagebox
 import random
+import threading
 
 def randomSeq(self):
         characters = ['q','w','e','r','t','y','u','i','o','p','a','s','d','f','g','h','j','j','k','l','z','x','c','v','b','n','m','1','2','3','4','5','6','7','8','9']
@@ -14,7 +15,7 @@ class serverC:
     def __init__(self):
         self.users = []
         self.sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        self.HOST = 'xx.x.xx.xxx'
+        self.HOST = '10.2.21.188'
         self.PORT = 2525
         self.sock.bind((self.HOST, self.PORT))
         self.sock.listen()
@@ -27,30 +28,37 @@ class serverC:
         while self.server_running: 
             try:
                 # Accept connection
-                self.conn, addr = self.sock.accept()
+                self.conn, self.addr = self.sock.accept()
                 self.users.append(self.conn)
-                self.broadcast(f"User {addr} has connected")
+                self.broadcast(f"User {self.addr} has connected")
+                print(self.conn)
                 #self.conn.sendall(self.serverSeq.encode())
-                while self.server_running:
-                    try:
-                        message = self.conn.recv(1024).decode()
-                        # if message == "2":
-                        #   self.broadcast(f"User {addr} has disconnected")
-                        #  self.delete_user(self.conn)
-                        # print(f"User {addr} has left")
-                        #else:
-                        self.broadcast(f"User {addr} says: " + message)
-                    except OSError as e:
-                        if e.errno == 10056:
-                            messagebox.showwarning("Connection Ended", e)
-                    except Exception as e:
-                        messagebox.showerror("Error Occurred", e)
+                self.t1 = threading.Thread(target=self.receive)
+                self.t1.daemon = True
+                self.t1.start()
             except OSError as e:
                 if not self.server_running and e.errno == 10038:
                     messagebox.showinfo("Server Notification", "Server has Stopped")
                     break
                 else:
                     raise e
+    
+    def receive(self):
+        while self.server_running:
+                    #print(self.conn)
+                    try:
+                        message = self.conn.recv(1024).decode()
+                        # if message == "2":
+                        #  self.broadcast(f"User {addr} has disconnected")
+                        #  self.delete_user(self.conn)
+                        # print(f"User {addr} has left")
+                        #else:
+                        self.broadcast(f"User {self.addr} says: " + message)
+                    except OSError as e:
+                        if e.errno == 10056:
+                            messagebox.showwarning("Connection Ended", e)
+                    except Exception as e:
+                        messagebox.showerror("Error Occurred", e)
         
             
     def broadcast(self, message):
