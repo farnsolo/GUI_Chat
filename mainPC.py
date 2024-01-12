@@ -24,7 +24,7 @@ class client_GUI:
         self.text_area.pack()
         self.text_area.config(state='disabled')
         
-        self.text_enter = tkk.Text(self.window, height = 5, width = 25)
+        self.text_enter = tkk.Text(self.window, height = 2, width = 70)
         self.text_enter.pack()
         
         self.text_enter.bind("<Return>",self.send_message)
@@ -64,7 +64,7 @@ class client_GUI:
                 #break
             
     def listen(self):
-        self.addr = 'xx.x.xx.xxx'
+        self.addr = '10.2.21.188'
         self.sock.connect((self.addr, 2525))
         print(f"Connected to Server {self.addr}")
         server_connect_message = f"Connected to server {self.addr}. \nPress the Enter key to send message"
