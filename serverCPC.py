@@ -15,7 +15,7 @@ class serverC:
     def __init__(self):
         self.users = []
         self.sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        self.HOST = '10.2.21.188'
+        self.HOST = 'xx.x.xx.xxx'
         self.PORT = 2525
         self.sock.bind((self.HOST, self.PORT))
         self.sock.listen()
