@@ -1,77 +1,121 @@
-import socket
+import tkinter as tk
+import tkinter.scrolledtext as tkk
 from tkinter import messagebox
-import random
+import serverCPC
 import threading
+import queue
+import socket
+import time
 
-def randomSeq(self):
-        characters = ['q','w','e','r','t','y','u','i','o','p','a','s','d','f','g','h','j','j','k','l','z','x','c','v','b','n','m','1','2','3','4','5','6','7','8','9']
-        sq = ""
-        for x in range(15):
-            i = random.randint(0,35)
-            sq += characters[i]
-        return sq
-
-class serverC:
+class client_GUI:
     def __init__(self):
-        self.users = {}
         self.sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        self.HOST = 'xxx.xxx.xxx.xxx'
-        self.PORT = 2525
-        self.sock.bind((self.HOST, self.PORT))
-        self.sock.listen()
-        print(f"Server listening on {self.HOST}:{self.PORT}")
-        self.serverSeq = randomSeq(self)
-        print(self.sock)
+        self.window = tk.Tk()
+        self.window.geometry("500x500")
+        self.window.title("Chat")
         
-    def create_server(self):
-        self.server_running = True  
-        while self.server_running: 
+        self.label = tk.Label(self.window, text="Client Handling", font=("Ariel", 18))
+        self.label.pack()
+        
+        self.client_connectBu = tk.Button(self.window, text="Connect to server", font=("Ariel", 18), command=self.connect_server)
+        self.client_connectBu.pack()
+        
+        self.text_area = tkk.ScrolledText(self.window)
+        self.text_area.pack()
+        self.text_area.config(state='disabled')
+        
+        self.text_enter = tkk.Text(self.window, height = 2, width = 70)
+        self.text_enter.pack()
+        
+        self.text_enter.bind("<Return>",self.send_message)
+        self.window.mainloop()
+        
+    def connect_server(self):
+        self.t3 = threading.Thread(target=self.listen)
+        self.t3.daemon = True
+        self.t4 = threading.Thread(target=self.receive)
+        self.t4.daemon = True
+        self.t3.start()
+        self.t4.start()
+        self.client_connectBu["state"] = "disabled"
+        
+    def receive(self):
+        self.serverSq = ""
+        time.sleep(0.1)
+        while True:
             try:
-                # Accept connection
-                self.conn, self.addr = self.sock.accept()
-                self.users[self.conn] = self.addr
-                self.broadcast(f"User {self.addr} has connected")
-                print(self.conn)
-                #self.conn.sendall(self.serverSeq.encode())
-                self.t1 = threading.Thread(target=self.receive)
-                self.t1.daemon = True
-                self.t1.start()
-            except OSError as e:
-                if not self.server_running and e.errno == 10038:
-                    messagebox.showinfo("Server Notification", "Server has Stopped")
+                self.message = self.sock.recv(1024).decode()
+                # FIND ALTERNATIVE TO 1
+                if self.message == "1": 
+                    messagebox.showinfo("Connection has ended", "Host has destroyed server")
+                    self.window.destroy()
                     break
                 else:
-                    raise e
+                    self.text_area.config(state='normal')
+                    self.text_area.insert('end', self.message + "\n")
+                    self.text_area.yview('end')
+                    self.text_area.config(state='disabled') 
+            except ConnectionAbortedError:
+                break
+            except Exception as e:
+                print("Hello")
+                print(e)
+                #self.sock.close()
+                #break
+            
+    def listen(self):
+        self.addr = '10.2.21.188'
+        self.sock.connect((self.addr, 2525))
+        print(f"Connected to Server {self.addr}")
+        server_connect_message = f"Connected to server {self.addr}. \nPress the Enter key to send message"
+        self.enter_message_textbox(server_connect_message)
+            
+    def send_message(self, event):
+        try:
+            message = self.text_enter.get("1.0",'end-1c')
+            self.sock.sendall(message.encode())
+            self.text_enter.delete("1.0", 'end')
+        except Exception as e:
+            self.enter_message_textbox(e)
+            
+    def enter_message_textbox(self, message):
+        self.text_area.config(state='normal')
+        self.text_area.insert('end', message + "\n")
+        self.text_area.yview('end')
+        self.text_area.config(state='disabled') 
     
-    def receive(self):
-        while self.server_running:
-                    #print(self.conn)
-                    try:
-                        message = self.conn.recv(1024).decode()
-                        # if message == "2":
-                        #  self.broadcast(f"User {addr} has disconnected")
-                        #  self.delete_user(self.conn)
-                        # print(f"User {addr} has left")
-                        #else:
-                        self.broadcast(f"User {self.users[self.conn]} says: " + message)
-                    except OSError as e:
-                        if e.errno == 10056:
-                            messagebox.showwarning("Connection Ended", e)
-                    except Exception as e:
-                        messagebox.showerror("Error Occurred", e)
+    # def on_close(self):
+    #     code = "2"
+    #    self.sock.sendall(code.encode())
+    #   self.sock.close()
         
-            
-    def broadcast(self, message):
-        for user in self.users.keys():
-            user.sendall(message.encode())
-            
-    # def delete_user(self, conn):
-    #    for user in self.users:
-    #       if user == conn:
-    #          self.users.remove(user)
+class GUI:
+    def __init__(self):
+        self.root = tk.Tk()
+        self.root.geometry("500x500")
+        self.label = tk.Label(self.root, text="Server Handling", font=("Ariel", 18))
+        self.label.pack()        
+        self.server_createBu = tk.Button(self.root, text="Create server", font=("Ariel",16), command=self.create_server)
+        self.server_createBu.pack()
+        self.server_destroyBu = tk.Button(self.root, text="Destroy server", font=("Ariel", 16), command=self.stop_server)
+        self.server_destroyBu.pack()
+        self.client = tk.Button(self.root, text="Client", font=("Ariel", 18), command=client_GUI)
+        self.client.pack()
+        
+        self.message_queue = queue.Queue()
+        self.root.mainloop()
+        
+    def create_server(self):
+        self.server = serverCPC.serverC()
+        self.t1 = threading.Thread(target=self.server.create_server)
+        self.t1.daemon = True
+        self.t1.start()
+        self.server_createBu["state"] = "disabled"
+        self.server_destroyBu["state"] = "normal"
+        
     def stop_server(self):
-        self.server_running = False
-        self.broadcast("1")
-        for user in self.users.keys():
-            user.close()
-        self.sock.close()
+        self.server_destroyBu["state"] = "disabled"
+        self.server_createBu["state"] = "normal"
+        self.server.stop_server()
+        self.server = None
+GUI()
