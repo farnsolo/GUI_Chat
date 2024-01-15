@@ -13,9 +13,9 @@ def randomSeq(self):
 
 class serverC:
     def __init__(self):
-        self.users = []
+        self.users = {}
         self.sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        self.HOST = 'xx.x.xx.xxx'
+        self.HOST = 'xxx.xxx.xxx.xxx'
         self.PORT = 2525
         self.sock.bind((self.HOST, self.PORT))
         self.sock.listen()
@@ -29,7 +29,7 @@ class serverC:
             try:
                 # Accept connection
                 self.conn, self.addr = self.sock.accept()
-                self.users.append(self.conn)
+                self.users[self.conn] = self.addr
                 self.broadcast(f"User {self.addr} has connected")
                 print(self.conn)
                 #self.conn.sendall(self.serverSeq.encode())
@@ -53,7 +53,7 @@ class serverC:
                         #  self.delete_user(self.conn)
                         # print(f"User {addr} has left")
                         #else:
-                        self.broadcast(f"User {self.addr} says: " + message)
+                        self.broadcast(f"User {self.users[self.conn]} says: " + message)
                     except OSError as e:
                         if e.errno == 10056:
                             messagebox.showwarning("Connection Ended", e)
@@ -62,7 +62,7 @@ class serverC:
         
             
     def broadcast(self, message):
-        for user in self.users:
+        for user in self.users.keys():
             user.sendall(message.encode())
             
     # def delete_user(self, conn):
@@ -72,6 +72,6 @@ class serverC:
     def stop_server(self):
         self.server_running = False
         self.broadcast("1")
-        for user in self.users:
+        for user in self.users.keys():
             user.close()
         self.sock.close()
