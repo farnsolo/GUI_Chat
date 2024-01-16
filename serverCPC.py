@@ -13,7 +13,7 @@ def randomSeq(self):
 
 class serverC:
     def __init__(self):
-        self.users = {}
+        self.users = []
         self.sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         self.HOST = '10.2.21.188'
         self.PORT = 2525
@@ -29,7 +29,7 @@ class serverC:
             try:
                 # Accept connection
                 self.conn, self.addr = self.sock.accept()
-                self.users[self.conn] = self.addr
+                self.users.append(self.conn)
                 self.broadcast(f"User {self.addr} has connected")
                 print(self.conn)
                 #self.conn.sendall(self.serverSeq.encode())
@@ -62,8 +62,7 @@ class serverC:
         
             
     def broadcast(self, message):
-        for user in self.users.keys():
-            print(user)
+        for user in self.users:
             user.sendall(message.encode())
             
     # def delete_user(self, conn):
@@ -73,6 +72,6 @@ class serverC:
     def stop_server(self):
         self.server_running = False
         self.broadcast("1")
-        for user in self.users.keys():
+        for user in self.users:
             user.close()
         self.sock.close()
