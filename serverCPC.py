@@ -15,7 +15,7 @@ class serverC:
     def __init__(self):
         self.users = []
         self.sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        self.HOST = '10.2.21.188'
+        self.HOST = 'xxx.xxx.xxx.xxx'
         self.PORT = 2525
         self.sock.bind((self.HOST, self.PORT))
         self.sock.listen()
@@ -45,15 +45,13 @@ class serverC:
     
     def receive(self, conn, addr):
         while self.server_running:
-                    #print(self.conn)
                     try:
                         message = conn.recv(1024).decode()
-                        # if message == "2":
-                        #  self.broadcast(f"User {addr} has disconnected")
-                        #  self.delete_user(self.conn)
-                        # print(f"User {addr} has left")
-                        #else:
-                        self.broadcast(f"User {addr} says: " + message)
+                        # CHANGE 'CODE'
+                        if message == "123":
+                            self.delete_user(self.conn)
+                        else:
+                            self.broadcast(f"User {addr} says: " + message)
                     except OSError as e:
                         if e.errno == 10056:
                             messagebox.showwarning("Connection Ended", e)
@@ -65,10 +63,13 @@ class serverC:
         for user in self.users:
             user.sendall(message.encode())
             
-    # def delete_user(self, conn):
-    #    for user in self.users:
-    #       if user == conn:
-    #          self.users.remove(user)
+    def delete_user(self, conn):
+        for user in self.users:
+            if user == conn:
+                self.users.remove(user)
+                self.conn.close()
+
+
     def stop_server(self):
         self.server_running = False
         self.broadcast("1")
