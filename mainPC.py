@@ -28,6 +28,7 @@ class client_GUI:
         self.text_enter.pack()
         
         self.text_enter.bind("<Return>",self.send_message)
+        self.window.protocol("WM_DELETE_WINDOW",self.client_close)
         self.window.mainloop()
         
     def connect_server(self):
@@ -64,7 +65,7 @@ class client_GUI:
                 #break
             
     def listen(self):
-        self.addr = 'xx.x.xx.xxx'
+        self.addr = 'xxx.xxx.xxx.xxx'
         self.sock.connect((self.addr, 2525))
         print(f"Connected to Server {self.addr}")
         server_connect_message = f"Connected to server {self.addr}. \nPress the Enter key to send message"
@@ -83,12 +84,14 @@ class client_GUI:
         self.text_area.insert('end', message + "\n")
         self.text_area.yview('end')
         self.text_area.config(state='disabled') 
-    
-    # def on_close(self):
-    #     code = "2"
-    #    self.sock.sendall(code.encode())
-    #   self.sock.close()
         
+    def client_close(self):
+        ans  = messagebox.askyesno(title="Exit", message=f"Do you want to exit server {self.addr}")
+        if ans:
+            # CHANGE 123 CODE
+            self.sock.sendall("123".encode())
+            self.sock.close()
+            self.window.destroy()
 class GUI:
     def __init__(self):
         self.root = tk.Tk()
