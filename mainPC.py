@@ -28,6 +28,7 @@ class client_GUI:
         self.text_enter.pack()
         
         self.text_enter.bind("<Return>",self.send_message)
+        self.text_enter.bind("<Control-Return>", self.enter_line)
         self.window.protocol("WM_DELETE_WINDOW",self.client_close)
         self.window.mainloop()
         
@@ -66,7 +67,7 @@ class client_GUI:
                 #break
             
     def listen(self):
-        self.addr = '10.2.21.188'
+        self.addr = 'xxxxxxxxxxx'
         self.sock.connect((self.addr, 2525))
         print(f"Connected to Server {self.addr}")
         server_connect_message = f"Connected to server {self.addr}. \nPress the Enter key to send message"
@@ -75,6 +76,7 @@ class client_GUI:
     def send_message(self, event):
         try:
             message = self.text_enter.get("1.0",'end-1c')
+            message = self.message_check(message)
             self.sock.sendall(message.encode())
             self.text_enter.delete("1.0", 'end')
             # The return 'break' prevents the return key from moving down a line in the text box
@@ -83,6 +85,13 @@ class client_GUI:
         except Exception as e:
             self.enter_message_textbox(e)
             
+    def enter_line(self,event):
+        event.widget.insert("insert", "\n")
+        return 'break'
+    
+    def message_check(self, message):
+        return message.strip()
+        
     def enter_message_textbox(self, message):
         self.text_area.config(state='normal')
         self.text_area.insert('end', message + "\n")
