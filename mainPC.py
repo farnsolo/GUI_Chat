@@ -42,6 +42,7 @@ class client_GUI:
         
     def receive(self):
         self.serverSq = ""
+        # Potential need of a fix
         time.sleep(0.1)
         while True:
             try:
@@ -65,7 +66,7 @@ class client_GUI:
                 #break
             
     def listen(self):
-        self.addr = 'xxx.xxx.xxx.xxx'
+        self.addr = '10.2.21.188'
         self.sock.connect((self.addr, 2525))
         print(f"Connected to Server {self.addr}")
         server_connect_message = f"Connected to server {self.addr}. \nPress the Enter key to send message"
@@ -76,6 +77,9 @@ class client_GUI:
             message = self.text_enter.get("1.0",'end-1c')
             self.sock.sendall(message.encode())
             self.text_enter.delete("1.0", 'end')
+            # The return 'break' prevents the return key from moving down a line in the text box
+            # I believe this prevents the default behavior from executing by exiting the function
+            return 'break'
         except Exception as e:
             self.enter_message_textbox(e)
             
