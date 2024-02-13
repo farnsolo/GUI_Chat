@@ -8,6 +8,7 @@ import time
 class client_GUI:
     def __init__(self):
         self.sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        self.rcvLoop = True
         self.window = tk.Tk()
         self.window.geometry("500x500")
         self.window.title("Chat")
@@ -40,32 +41,30 @@ class client_GUI:
         self.client_connectBu["state"] = "disabled"
         
     def receive(self):
-        self.serverSq = ""
         # Potential need of a fix
         time.sleep(0.1)
-        while True:
+        while self.rcvLoop:
             try:
                 self.message = self.sock.recv(1024).decode()
-                # FIND ALTERNATIVE TO 1
-                if self.message == "1": 
-                    messagebox.showinfo("Connection has ended", "Host has destroyed server")
-                    self.window.destroy()
-                    break
-                else:
+                if self.message:
                     self.text_area.config(state='normal')
                     self.text_area.insert('end', self.message + "\n")
                     self.text_area.yview('end')
                     self.text_area.config(state='disabled') 
+                else:
+                    messagebox.showinfo("Connection has ended", "Host has destroyed server")
+                    self.window.destroy()
+                    break
             except ConnectionAbortedError:
                 break
             except Exception as e:
-                print("Hello")
-                print(e)
-                #self.sock.close()
-                #break
+                # Possibly more elegant way to implement this?
+                if(self.rcvLoop):
+                    print("Hello")
+                    print(e)
             
     def listen(self):
-        self.addr = 'xxxxxxxxxx'
+        self.addr = 'XXXXXXXXXX'
         self.sock.connect((self.addr, 2525))
         print(f"Connected to Server {self.addr}")
         server_connect_message = f"Connected to server {self.addr}. \nPress the Enter key to send message"
@@ -99,7 +98,7 @@ class client_GUI:
     def client_close(self):
         ans  = messagebox.askyesno(title="Exit", message=f"Do you want to exit server {self.addr}")
         if ans:
-            # CHANGE 123 CODE
-            self.sock.sendall("123".encode())
+            self.rcvLoop = False
+            self.sock.shutdown(socket.SHUT_RDWR)
             self.sock.close()
             self.window.destroy()
