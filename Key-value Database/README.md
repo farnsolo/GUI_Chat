@@ -1,8 +1,8 @@
 ## About
-The Key-value Database stores Server name - IP pair values
-The database is designed to emulate the functions of a Domain Name Server
-The goal is to have real-time list of online servers from which the user can connect to.
-The user should also be able to create up to 5 servers from their IP address
+The Key-value Database stores Server name - IP pair values <br />
+The database is designed to emulate the functions of a Domain Name Server <br />
+The goal is to have real-time list of online servers from which the user can connect to. <br />
+The user should also be able to create up to 5 servers from their IP address <br />
 
 
 
