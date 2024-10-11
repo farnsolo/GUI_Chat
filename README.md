@@ -8,11 +8,6 @@
 <br/>
 <br/>
 <br/>
-<br/>
-<br/>
-<br/>
-<br/>
-<br/>
 ## Overview
 
 ### Local Network Edition
@@ -31,10 +26,10 @@ This document describes the logic behing the GUI_CHAT program(s) and design deci
 
 ### Technologies
 #### Python
-All programming is done in Python. I was motivated to use python for several reasons. I already had a good foundation with the language, having used it in schools and for minor projects. The language has a set of extensive libraries, this is significant because I have previously experimented with sockets in C, which is platform dependent, winsock for windows and sys/socket.h (BSD socket library) for UNIX. Python's libraries are often well integrated and allows me to focus on other parts of the project, rather than be bogged down in tedious tasks.
+All programming is done in Python. I was motivated to use python for several reasons. I already had a good foundation with the language, having used it in school and for minor projects. The language has a set of extensive libraries, this is significant because I have previously experimented with sockets in C, which is platform dependent, winsock for windows and sys/socket.h (BSD socket library) for UNIX. Python's libraries are often well integrated and allows me to focus on other parts of the project, rather than be bogged down in tedious tasks.
 
 #### AWS - EC2 Instance
-In all instances of the program (local/global), the user will have to communicate with a central server to retrieve/send information. This central server had to independent of a user's device and accessible from across the internet. AWS offers a range of services to solve this. I was initially drawn to AWS Lambda but lambda does not support TCP traffic, which is the only protocol used for sending messages in my program, as such I decided to use EC2 Instance service. My reasoning behind this, is as EC2 Instance is a virtual machine, my code would work without modification.
+In all instances of the program (local/global), the user will have to communicate with a central server to retrieve/send information. This central server had to be independent of a user's device and accessible from across the internet. AWS offers a range of services to solve this. I was initially drawn to AWS Lambda but lambda does not support TCP traffic, which is the only protocol used for sending messages in my program, as such I decided to use EC2 Instance service. As EC2 is a virtual machine, setting up the machine with my code would be easy as I can create the code on my own device and upload to the instance without making major modifications.
 
 > "Blockquotes Blockquotes", [Link](http://localhost/)。
 
