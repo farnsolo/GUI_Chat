@@ -33,11 +33,11 @@ A primary feature of the Chat-server program is the use of a GUI to display info
 In all instances of the program (local/global), the user will have to communicate with a central server to retrieve/send information. This central server had to be independent of a user's device and accessible from across the internet. AWS offers a range of services to solve this. I was initially drawn to AWS Lambda but lambda does not support TCP traffic, which is the only protocol used for sending messages in my program, as such I decided to use EC2 Instance service. As EC2 is a virtual machine, setting up the machine with my code would be easy as I can create the code on my own device and upload to the instance without making major modifications.
 
 
-![alt text](https://github.com/farnsolo/GUI_Chat/blob/main/socketDiagram.drawio.png)
+
 ## Local Network Edition
 ### Introduction
-The local network edition is the program which only allows for communication on local network. The idea behind the program is for any user to be able to host and join 'chat rooms' which are listed globally.
-In the local network edition, when the user wants to host a server, the socket is binded and listens on the user's device for incoming traffic on port 2525. The Server's host and name is sent to the 
+The local network edition is the program which only allows for communication on local network. The idea behind the program is for any user to be able to host and join 'chat rooms' which are listed on the network by another user or dedicated machine.
+![alt text](https://github.com/farnsolo/GUI_Chat/blob/main/socketDiagram.drawio.png)
 > "Blockquotes Blockquotes", [Link](http://localhost/)。
 
 
