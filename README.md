@@ -36,6 +36,7 @@ All programming is done in Python. I was motivated to use python for several rea
 A primary feature of the Chat-server program is the use of a GUI to display information and interactive elements for the user to use. I wanted to learn something simple and easy to use, preferably already integrated in Python. For these reasons I chose Tkinter. Its simple widgets and structure was a pleasure to use, having previously worked with JavaFX.
 <br/>
 <br/>
+
 #### AWS - EC2 Instance
 
 <br/>
