@@ -92,7 +92,19 @@ The program takes this new connection and address as parameters in method receiv
 To continue accepting new connections, a new thread is created to start process receive.
 <br/>
 <br/>
-###### 
+
+###### receive
+This method runs while server is online and receives inbound messages by client on the passed conn socket object.
+
+####### message encoding and decoding
+In order to understand how receive messages, a slight detour to how messages are encoded and decoded is needed.
+<br/>
+In the local network edition, encoding is used to differentiate a normal converstational message and a message intended to be the client's username - for which a server associates with the user's address in a dictionary (address is key).
+username is attached to each message that a user makes - the server broadcasts this message hence the need for a identifier.
+<br/>
+<br/>
+   | First Byte  | Second byte and every byte after |
+   |   Command   |          Message                 |
 
 
 ####Code Blocks (Indented style)
