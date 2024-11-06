@@ -42,9 +42,13 @@ The local network edition is the program which only allows for communication on 
 
 The user first interacts with a main menu GUI (main.py). It is from here the program is initialised. The user is asked to input their username upon initilisation, which is logged and passed to the create_client function when the user decides to proceed to the listings menu. 
 
-When creating a server, the user first inputs the servername. After this a new thread running the main server script (serverCPC.py) is created and the servername label is changed. Threads are used heavily in this project. To allow a user to continue using the program, a thread is used to create a background process where the server will listen to and process receiveing information.
+When creating a server, the user first inputs the servername. After this a new thread running the main server script (serverCPC.py) is created and the servername label is changed. Threads are used heavily in this project. To allow a user to continue using the program, a thread is used to create a background process where the server will listen and process incoming data.
 
+In serverCPC:
 `self.t1 = threading.Thread(target=self.server.create_server)`
+`self.t1.daemon = True // Sets thread as background process`
+`self.t1.start() = True`
+
 
 ####Code Blocks (Indented style)
 
