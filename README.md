@@ -40,17 +40,34 @@ The local network edition is the program which only allows for communication on 
 ![alt text](https://github.com/farnsolo/GUI_Chat/blob/main/socketDiagram.drawio.png)
 > Diagram of Local Network model
 
+### Server creation
 The user first interacts with a main menu GUI (main.py). It is from here the program is initialised. The user is asked to input their username upon initilisation, which is logged and passed to the create_client function when the user decides to proceed to the listings menu. 
 
-When creating a server, the user first inputs the servername. After this a new thread running the main server script (serverCPC.py) is created and the servername label is changed. Threads are used heavily in this project. To allow a user to continue using the program, a thread is used to create a background process where the server will listen and process incoming data.
+When creating a server, the user first inputs the servername. After this a new serverCPC object is initialised.Then a thread is created running the main server creation script (serverCPC.create_server) and the servername label is changed. Threads are used heavily in this project. To allow a user to continue using the program, a thread is used to create a background process where the server will listen and process incoming data.
 
-In serverCPC:
+In mainPC (lines 59-61):
 <br/>
 `self.t1 = threading.Thread(target=self.server.create_server)`
 <br/>
 `self.t1.daemon = True # Sets thread as background process`
 <br/>
 `self.t1.start() = True`
+<br/>
+<br/>
+
+Server creation is successful, if server name is displayed on menu page AND server creation buttion is disabled.
+
+##### serverCPC
+The serverCPC class contains all methods and variables used to handle incoming and outgoing data. Upoun initialisation, the class creates a socket object, retrieves HOST (device IP) and lists server on global listenings (backendInterface.listServer).
+Then the serverCPC class will bind the HOST and Port number (2525) to socket object and begins to listen.
+
+###### server_create
+The method server_create is the handler for new connections to server. 
+<br/>
+The server accepts a new unique connection through line below:
+<br/>
+`self.conn, self.addr = self.sock.accept()`
+This sock.accept() returns a pair (conn,address) of which conn is a new socket object for that connection (server -> client). Address is the address bound to the socket on the other end of the connection (client).
 
 
 ####Code Blocks (Indented style)
