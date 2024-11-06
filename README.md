@@ -26,10 +26,15 @@ This document describes the logic behing the GUI_CHAT program(s) and design deci
 
 ### Technologies
 #### Python
+
+
 All programming is done in Python. I was motivated to use python for several reasons. I already had a good foundation with the language, having used it in school and for minor projects. The language has a set of extensive libraries, this is significant because I have previously experimented with sockets in C, which is platform dependent, winsock for windows and sys/socket.h (BSD socket library) for UNIX. Python's libraries are often well integrated and allows me to focus on other parts of the project, rather than be bogged down in tedious tasks.
 ##### Tkinter
+
+
 A primary feature of the Chat-server program is the use of a GUI to display information and interactive elements for the user to use. I wanted to learn something simple and easy to use, preferably already integrated in Python. For these reasons I chose Tkinter. Its simple widgets and structure was a pleasure to use, having previously worked with JavaFX.
 #### AWS - EC2 Instance
+
 In all instances of the program (local/global), the user will have to communicate with a central server to retrieve/send information. This central server had to be independent of a user's device and accessible from across the internet. AWS offers a range of services to solve this. I was initially drawn to AWS Lambda but lambda does not support TCP traffic, which is the only protocol used for sending messages in my program, as such I decided to use EC2 Instance service. As EC2 is a virtual machine, setting up the machine with my code would be easy as I can create the code on my own device and upload to the instance without making major modifications.
 
 
@@ -39,6 +44,7 @@ In all instances of the program (local/global), the user will have to communicat
 The local network edition is the program which only allows for communication on local network. The idea behind the program is for any user to be able to host and join 'chat rooms' which are listed on the network by another user or dedicated machine. Both the server and client scripts are seperate. Therefore, if a user has created a server and wishes to join it, they will have to join via the listing menu.
 ![alt text](https://github.com/farnsolo/GUI_Chat/blob/main/socketDiagram.drawio.png)
 > Diagram of Local Network model
+
 
 ### Server creation
 The user first interacts with a main menu GUI (main.py). It is from here the program is initialised. The user is asked to input their username upon initilisation, which is logged and passed to the create_client function when the user decides to proceed to the listings menu. 
@@ -57,9 +63,11 @@ In mainPC (lines 59-61):
 
 Server creation is successful, if server name is displayed on menu page AND server creation buttion is disabled.
 
+
 ##### serverCPC
 The serverCPC class contains all methods and variables used to handle incoming and outgoing data. Upoun initialisation, the class creates a socket object, retrieves HOST (device IP) and lists server on global listenings (backendInterface.listServer).
 Then the serverCPC class will bind the HOST and Port number (2525) to socket object and begins to listen.
+
 
 ###### server_create
 The method server_create is the handler for new connections to server. 
