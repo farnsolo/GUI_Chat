@@ -130,9 +130,6 @@ Messages are encoded as follows:
 `command = "0".encode()`
 <br/>
 
-`command = "0".encode()`
-<br/>
-
 `byteString = command`
 <br/>
 
