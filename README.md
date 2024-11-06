@@ -64,9 +64,11 @@ Then the serverCPC class will bind the HOST and Port number (2525) to socket obj
 ###### server_create
 The method server_create is the handler for new connections to server. 
 <br/>
+<br/>
 The server accepts a new unique connection through line below:
 <br/>
 `self.conn, self.addr = self.sock.accept()`
+<br/>
 This sock.accept() returns a pair (conn,address) of which conn is a new socket object for that connection (server -> client). Address is the address bound to the socket on the other end of the connection (client).
 
 
