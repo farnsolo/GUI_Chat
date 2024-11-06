@@ -48,7 +48,7 @@ In serverCPC:
 <br/>
 `self.t1 = threading.Thread(target=self.server.create_server)`
 <br/>
-`self.t1.daemon = True // Sets thread as background process`
+`self.t1.daemon = True # Sets thread as background process`
 <br/>
 `self.t1.start() = True`
 
