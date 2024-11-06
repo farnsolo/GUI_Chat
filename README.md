@@ -105,7 +105,7 @@ username is attached to each message that a user makes - the server broadcasts t
 <br/>
 | First Byte  | Second Byte and every byte after |
 | ------------| ------------- |
-|   Command   |   data        |
+|   Command   |    Data        |
 
 
 ####Code Blocks (Indented style)
