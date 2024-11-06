@@ -45,8 +45,11 @@ The user first interacts with a main menu GUI (main.py). It is from here the pro
 When creating a server, the user first inputs the servername. After this a new thread running the main server script (serverCPC.py) is created and the servername label is changed. Threads are used heavily in this project. To allow a user to continue using the program, a thread is used to create a background process where the server will listen and process incoming data.
 
 In serverCPC:
+<br/>
 `self.t1 = threading.Thread(target=self.server.create_server)`
+<br/>
 `self.t1.daemon = True // Sets thread as background process`
+<br/>
 `self.t1.start() = True`
 
 
