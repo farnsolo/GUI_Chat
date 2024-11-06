@@ -103,8 +103,9 @@ In the local network edition, encoding is used to differentiate a normal convers
 username is attached to each message that a user makes - the server broadcasts this message hence the need for a identifier.
 <br/>
 <br/>
-   | First Byte  | Second byte and every byte after |
-   |   Command   |          Message                 |
+| First Byte  | Second Byte and every byte after |
+| ------------| ------------- |
+|   Command   |   data        |
 
 
 ####Code Blocks (Indented style)
