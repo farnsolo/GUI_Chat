@@ -106,6 +106,29 @@ username is attached to each message that a user makes - the server broadcasts t
 | First Byte  | Second Byte and every byte after |
 | ------------| ------------- |
 |   Command   |    Data        |
+<br/>
+<br/>
+The first byte of every message is encoded as either 1 or 0; 1 indicates that the subsequent data is a conversational message and should be broadcasted. A 0 indicates that the data is a username that needs to be recorded.
+<br/>
+<br/>
+<br/>
+In the examples below, a user is sending their username to be recorded. 
+<br/>
+Messages are encoded as follows:
+<br/>
+`message = self.username.encode()`
+<br/>
+`command = "0".encode()`
+<br/>
+`command = "0".encode()`
+<br/>
+`byteString = command`
+<br/>
+`byteString += message`
+<br/>
+`self.sock.sendall(byteString)`
+
+
 
 
 ####Code Blocks (Indented style)
