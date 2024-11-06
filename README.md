@@ -60,11 +60,15 @@ When creating a server, the user first inputs the servername. After this a new s
 
 In mainPC (lines 59-61):
 <br/>
+
 `self.t1 = threading.Thread(target=self.server.create_server)`
 <br/>
+
 `self.t1.daemon = True # Sets thread as background process`
 <br/>
+
 `self.t1.start() = True`
+
 <br/>
 <br/>
 
