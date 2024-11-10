@@ -137,6 +137,8 @@ Messages are encoded as follows:
 <br/>
 
 `self.sock.sendall(byteString)`
+<br/>
+The 
 
 
 
