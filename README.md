@@ -101,7 +101,7 @@ To continue accepting new connections, a new thread is created to start process 
 ###### receive
 This method runs while server is online and receives inbound messages by client on the passed conn socket object.
 
-####### message encoding and decoding
+###### message encoding and decoding
 In order to understand how receive messages, a slight detour to how messages are encoded and decoded is needed.
 <br/>
 In the local network edition, encoding is used to differentiate a normal converstational message and a message intended to be the client's username - for which a server associates with the user's address in a dictionary (address is key).
@@ -138,7 +138,31 @@ Messages are encoded as follows:
 
 `self.sock.sendall(byteString)`
 <br/>
-The 
+.encode() encodes a string into a bytes object. By default it uses UTF-8 encoding. UTF-8 encodes code points in one to four bytes. In this example, an for every other command in the program, the command flag will only take up to one byte. In this example, 0 encodes to an zero byte. 
+<br/>
+The actual message is then appended to the end of the byteString.
+<br/>
+<br/>
+Server-side decoding:
+<br/>
+
+`message = conn.recv(1024)`
+<br/>
+Message recieved by socket, message is still a byte object and not a string.
+<br/>
+<br/>
+
+`commandRecv = message[:1].decode()`
+<br/>
+Extracts the first byte from the message and decodes it.
+<br/>
+<br/>
+
+`messageRecv = message[1:len(message)].decode()`
+<br/>
+Extracts every byte after and decodes. len(message) will return the last byte.
+<br/>
+<br/>
 
 
 
